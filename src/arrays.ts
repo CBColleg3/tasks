@@ -10,7 +10,7 @@ export function bookEndList(numbers: number[]): number[] {
     const bookFirst: number[] = [numbers[0]];
     const finalIndex: number =
         numbers[1] !== null ? numbers[numbers.length - 1] : bookFirst[0];
-    console.log("finalNumberInList: ", finalIndex);
+    //console.log("finalNumberInList: ", finalIndex);
     const bookLast: number[] = [...bookFirst, finalIndex];
     return bookLast;
 }
@@ -20,7 +20,9 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
+    //console.log("original: ", numbers);
     const tripled = numbers.map((number: number): number => number * 3);
+    //console.log("tripled: ", tripled);
     return tripled;
 }
 
@@ -46,12 +48,12 @@ export const removeDollars = (amounts: string[]): number[] => {
     const dollars: string[] = amounts.map((amount: string): string => {
         return amount.startsWith("$") ? amount.substring(1) : amount;
     });
-    console.log("dollars: ", dollars);
+    //console.log("dollars: ", dollars);
     const money: number[] = dollars.map((amount: string): number => {
-        console.log("IsNumber ", isNaN(Number(amount)));
+        //console.log("IsNumber ", isNaN(Number(amount)));
         return isNaN(Number(amount)) || amount === "" ? 0 : parseInt(amount);
     });
-    console.log("money: ", money);
+    //console.log("money: ", money);
     return money;
 };
 
@@ -61,10 +63,10 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    const question = messages.filter((message: string): boolean =>
-        message.endsWith("?")
+    const question = messages.filter(
+        (message: string): boolean => message.endsWith("?") === false
     );
-
+    //console.log("question: ", question);
     const shout: string[] = question.map((message: string): string => {
         return message.endsWith("!") ? message.toUpperCase() : message;
     });
@@ -88,7 +90,12 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) return true;
+    const allColors = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green"
+    );
+    return allColors;
 }
 
 /**
@@ -99,7 +106,16 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    let sum = 0;
+    if (addends.length === 0) return "0=0";
+    const addTotal: string[] = addends.map((add: number): string => {
+        sum += add;
+        return add + "+";
+    });
+    console.log("addTotal: ", addTotal);
+    const strMath = [sum, "=", ...addTotal].join("").toString();
+    console.log("strMath: ", strMath.substring(0, strMath.length - 1));
+    return strMath.substring(0, strMath.length - 1);
 }
 
 /**
@@ -112,5 +128,32 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    let sum = 0;
+    values.map((value: number): number => {
+        if (values.length > 1 && values[0] < 0) return 0;
+        sum += value;
+        if (value < 0) {
+            console.log("sum (found a neg number): ", sum);
+            sum += value;
+            return sum;
+        }
+        //console.log("sum (did not find a neg number): ", sum);
+        //console.log("count: ", count);
+        return sum;
+    });
+    const newArray = [...values];
+    //newArray.findIndex((element) => element < 0);
+    //console.log(newArray.findIndex((element) => element < 0));
+    //console.log("last index: ", newArray.length - 1, " ", newArray[length - 1]);
+    let insertNum = newArray.findIndex((element) => element < 0);
+    if (insertNum !== -1) insertNum++;
+    newArray.splice(
+        newArray.findIndex((element) => element < 0) !== -1
+            ? insertNum
+            : newArray.length,
+        0,
+        sum
+    );
+    console.log("newArray: ", newArray);
+    return newArray;
 }
