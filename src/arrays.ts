@@ -5,7 +5,14 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    const bookList: number[] = [];
+    if (numbers.length === 0) return bookList;
+    const bookFirst: number[] = [numbers[0]];
+    const finalIndex: number =
+        numbers[1] !== null ? numbers[numbers.length - 1] : bookFirst[0];
+    console.log("finalNumberInList: ", finalIndex);
+    const bookLast: number[] = [...bookFirst, finalIndex];
+    return bookLast;
 }
 
 /**
@@ -13,7 +20,8 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const tripled = numbers.map((number: number): number => number * 3);
+    return tripled;
 }
 
 /**
@@ -21,7 +29,10 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    const strings = numbers.map((str: string): number =>
+        isNaN(Number(str)) ? 0 : parseInt(str)
+    );
+    return strings;
 }
 
 /**
@@ -32,7 +43,16 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    const dollars: string[] = amounts.map((amount: string): string => {
+        return amount.startsWith("$") ? amount.substring(1) : amount;
+    });
+    console.log("dollars: ", dollars);
+    const money: number[] = dollars.map((amount: string): number => {
+        console.log("IsNumber ", isNaN(Number(amount)));
+        return isNaN(Number(amount)) || amount === "" ? 0 : parseInt(amount);
+    });
+    console.log("money: ", money);
+    return money;
 };
 
 /**
@@ -41,7 +61,14 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const question = messages.filter((message: string): boolean =>
+        message.endsWith("?")
+    );
+
+    const shout: string[] = question.map((message: string): string => {
+        return message.endsWith("!") ? message.toUpperCase() : message;
+    });
+    return shout;
 };
 
 /**
@@ -49,7 +76,10 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const wordArray = words.filter(
+        (message: string): boolean => message.length < 4
+    );
+    return wordArray.length;
 }
 
 /**
