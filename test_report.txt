@@ -2,18 +2,108 @@
 > react-typescript-starter@0.1.0 test
 > react-scripts test "--coverage"
 
+PASS src/arrays.test.ts
+  ● Console
+
+    console.log
+      addTotal:  [ '1+', '2+', '3+' ]
+
+      at makeMath (src/arrays.ts:115:13)
+
+    console.log
+      strMath:  6=1+2+3
+
+      at makeMath (src/arrays.ts:117:13)
+
+    console.log
+      addTotal:  [ '100+', '300+', '200+' ]
+
+      at makeMath (src/arrays.ts:115:13)
+
+    console.log
+      strMath:  600=100+300+200
+
+      at makeMath (src/arrays.ts:117:13)
+
+    console.log
+      addTotal:  [ '5+' ]
+
+      at makeMath (src/arrays.ts:115:13)
+
+    console.log
+      strMath:  5=5
+
+      at makeMath (src/arrays.ts:117:13)
+
+    console.log
+      addTotal:  [ '199+', '1+', '550+', '50+', '200+' ]
+
+      at makeMath (src/arrays.ts:115:13)
+
+    console.log
+      strMath:  1000=199+1+550+50+200
+
+      at makeMath (src/arrays.ts:117:13)
+
+    console.log
+      newArray:  [ 1, 2, 3, 6 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      newArray:  [ 100, 300, 200, 600 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      newArray:  [ 5, 5 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      newArray:  [ 0 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      sum (found a neg number):  295
+
+      at map (src/arrays.ts:136:21)
+          at Array.map (<anonymous>)
+
+    console.log
+      newArray:  [
+        100, 199, 1, -5,
+        300,   7, 3
+      ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      newArray:  [ -100, 0, -200, 100, 200 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
+    console.log
+      newArray:  [ 199, 1, 550, 50, 200, 1000 ]
+
+      at injectPositive (src/arrays.ts:157:13)
+
 PASS src/HtmlCss.test.tsx
+PASS src/functions.test.ts
 PASS src/text.test.tsx
 PASS src/App.test.tsx
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-----------|---------|----------|---------|---------|-------------------
-All files |     100 |      100 |     100 |     100 |                   
- App.tsx  |     100 |      100 |     100 |     100 |                   
-----------|---------|----------|---------|---------|-------------------
+--------------|---------|----------|---------|---------|-------------------
+File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+--------------|---------|----------|---------|---------|-------------------
+All files     |     100 |    97.56 |     100 |     100 |                   
+ App.tsx      |     100 |      100 |     100 |     100 |                   
+ arrays.ts    |     100 |    96.77 |     100 |     100 | 12                
+ functions.ts |     100 |      100 |     100 |     100 |                   
+--------------|---------|----------|---------|---------|-------------------
 
-Test Suites: 3 passed, 3 total
-Tests:       9 passed, 9 total
+Test Suites: 5 passed, 5 total
+Tests:       23 passed, 23 total
 Snapshots:   0 total
-Time:        2.757 s
+Time:        4.199 s
 Ran all test suites.
