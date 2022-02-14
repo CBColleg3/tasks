@@ -112,9 +112,9 @@ export function makeMath(addends: number[]): string {
         sum += add;
         return add + "+";
     });
-    console.log("addTotal: ", addTotal);
+    //console.log("addTotal: ", addTotal);
     const strMath = [sum, "=", ...addTotal].join("").toString();
-    console.log("strMath: ", strMath.substring(0, strMath.length - 1));
+    //console.log("strMath: ", strMath.substring(0, strMath.length - 1));
     return strMath.substring(0, strMath.length - 1);
 }
 
@@ -133,7 +133,7 @@ export function injectPositive(values: number[]): number[] {
         if (values.length > 1 && values[0] < 0) return 0;
         sum += value;
         if (value < 0) {
-            console.log("sum (found a neg number): ", sum);
+            //console.log("sum (found a neg number): ", sum);
             sum += value;
             return sum;
         }
@@ -154,6 +154,6 @@ export function injectPositive(values: number[]): number[] {
         0,
         sum
     );
-    console.log("newArray: ", newArray);
+    //console.log("newArray: ", newArray);
     return newArray;
 }
