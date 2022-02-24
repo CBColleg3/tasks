@@ -1,4 +1,3 @@
-import { idText } from "typescript";
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 import { duplicateQuestion, makeBlankQuestion } from "./objects";
@@ -20,13 +19,15 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    const nonEmptyQuestion = questions.filter(
+    const nonEmptyQuestion = [...questions].filter(
         (question: Question): boolean =>
-            question.body !== "" &&
-            question.expected !== "" &&
-            question.options.length >= 1
+            !(
+                question.body === "" &&
+                question.expected === "" &&
+                question.options.length === 0
+            )
     );
-    console.log(nonEmptyQuestion);
+    //console.log(nonEmptyQuestion);
     return nonEmptyQuestion;
 }
 
@@ -219,7 +220,16 @@ export function changeQuestionTypeById(
 ): Question[] {
     return [...questions].map((question: Question): Question => {
         if (question.id === targetId) {
-            return { ...question, type: newQuestionType };
+            if (newQuestionType !== "multiple_choice_question") {
+                const emptyArray: string[] = [];
+                return {
+                    ...question,
+                    type: newQuestionType,
+                    options: emptyArray
+                };
+            } else {
+                return { ...question, type: newQuestionType };
+            }
         }
         return question;
     });
@@ -241,18 +251,30 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ) {
-    return [...questions].map((question: Question): Question => {
-        if (question.id === targetId) {
-            return {
-                ...question,
-                options:
-                    targetOptionIndex === -1
-                        ? [...question.options, newOption]
-                        : (question.options.splice(targetOptionIndex, 1, newOption))
-            };
-        }
-        return question;
-    });
+    function addReplaceOption(question: Question) {
+        //const i = question.options[targetOptionIndex];
+        //onsole.log("before: ", question.options);
+
+        const questArray = [...question.options];
+
+        if (targetOptionIndex !== -1)
+            questArray.splice(targetOptionIndex, 1, newOption);
+
+        //console.log("after: ", question.options);
+
+        return {
+            ...question,
+            options:
+                targetOptionIndex === -1
+                    ? [...question.options, newOption]
+                    : questArray
+        };
+    }
+
+    return [...questions].map(
+        (question: Question): Question =>
+            question.id === targetId ? addReplaceOption(question) : question
+    );
 }
 
 /***
@@ -270,7 +292,7 @@ export function duplicateQuestionInArray(
     questionArray.map((question: Question): void => {
         if (question.id === targetId) {
             questionArray.splice(
-                questions.indexOf(question) + 1,
+                questionArray.indexOf(question) + 1,
                 0,
                 duplicateQuestion(newId, question)
             );
