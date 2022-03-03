@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import starrynight from "./starrynight.png";
 import "./App.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
@@ -20,6 +20,7 @@ function App(): JSX.Element {
             <Button onClick={() => console.log("Hello World!")}>
                 Log Hello World
             </Button>
+
             <Container>
                 <Row>
                     <Col>
@@ -42,19 +43,23 @@ function App(): JSX.Element {
                     </Col>
                 </Row>
             </Container>
-
-            <hr></hr>
-            <Counter></Counter>
-            <hr />
-            <RevealAnswer></RevealAnswer>
-            <hr />
-            <StartAttempt></StartAttempt>
-            <hr />
-            <TwoDice></TwoDice>
-            <hr />
-            <ChangeType></ChangeType>
-            <hr />
-            <CycleHoliday></CycleHoliday>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div>
+                <hr></hr>
+                <Counter></Counter>
+                <hr />
+                <RevealAnswer></RevealAnswer>
+                <hr />
+                <StartAttempt></StartAttempt>
+                <hr />
+                <TwoDice></TwoDice>
+                <hr />
+                <ChangeType></ChangeType>
+                <hr />
+                <CycleHoliday></CycleHoliday>
+            </div>
         </div>
     );
 }
