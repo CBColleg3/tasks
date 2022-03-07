@@ -40,31 +40,16 @@ export function CycleHoliday(): JSX.Element {
 
     function setHolidayEmoji(holidayType: HolidayType): string {
         let emojiString = "";
-        switch (holidayType) {
-            case "Christmas": {
-                emojiString = "🎅";
-                break;
-            }
-
-            case "Thanksgiving": {
-                emojiString = "🦃";
-                break;
-            }
-
-            case "MLK Day": {
-                emojiString = "🤚🏿";
-                break;
-            }
-
-            case "Groundhog Day": {
-                emojiString = "🐗";
-                break;
-            }
-
-            case "Veteran's Day": {
-                emojiString = "🪖";
-                break;
-            }
+        if (holidayType === "Christmas") {
+            emojiString = "🎅";
+        } else if (holidayType === "Thanksgiving") {
+            emojiString = "🦃";
+        } else if (holidayType === "MLK Day") {
+            emojiString = "🤚🏿";
+        } else if (holidayType === "Groundhog Day") {
+            emojiString = "🐗";
+        } else {
+            emojiString = "🪖";
         }
         return emojiString;
     }

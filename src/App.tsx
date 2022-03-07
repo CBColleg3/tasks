@@ -1,7 +1,7 @@
 import React from "react";
 import starrynight from "./starrynight.png";
 import "./App.css";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { ChangeType } from "./components/ChangeType";
 import { RevealAnswer } from "./components/RevealAnswer";
 import { StartAttempt } from "./components/StartAttempt";
