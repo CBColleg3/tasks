@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 
 interface doubleValues {
     // The type is "a function that consumes a boolean and returns nothing"
-    setDhValue: (newDH: number) => void;
+    setDhValue: (newDH: number) => void; //anonymous function type
     dhValue: number;
 }
 
@@ -15,7 +15,7 @@ function Doubler({ setDhValue, dhValue }: doubleValues): JSX.Element {
 function Halver({ setDhValue, dhValue }: doubleValues): JSX.Element {
     return <Button onClick={() => setDhValue(0.5 * dhValue)}>Halve</Button>;
 }
-
+ 
 export function DoubleHalf(): JSX.Element {
     const [dhValue, setDhValue] = useState<number>(10);
     return (
