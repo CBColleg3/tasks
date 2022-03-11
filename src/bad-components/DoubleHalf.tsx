@@ -15,7 +15,6 @@ function Doubler({ setDhValue, dhValue }: doubleValues): JSX.Element {
 function Halver({ setDhValue, dhValue }: doubleValues): JSX.Element {
     return <Button onClick={() => setDhValue(0.5 * dhValue)}>Halve</Button>;
 }
- 
 export function DoubleHalf(): JSX.Element {
     const [dhValue, setDhValue] = useState<number>(10);
     return (
