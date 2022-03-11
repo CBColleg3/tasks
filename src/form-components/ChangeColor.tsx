@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
-// Simplify type definition of the Change Event
-type ChangeEvent = React.ChangeEvent<
-    HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement
->;
-
 const COLORS = [
     "red",
     "blue",
