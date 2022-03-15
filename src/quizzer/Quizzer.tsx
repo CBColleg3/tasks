@@ -11,25 +11,6 @@ interface Quiz {
     //totalQuestions: number;
 }
 
-const INITIAL_QUIZZES: Quiz[] = [
-    {
-        title: "Math Quiz",
-        description: "Short quiz on Calculus",
-        questions: []
-    },
-    {
-        title: "Science Quiz",
-        description: "Short quiz on Physics",
-        questions: []
-    },
-    {
-        title: "CISC275 Quiz",
-        description: "Short quiz on State",
-        questions: []
-    },
-    { title: "Gaming Quiz", description: "Short quiz on Gaming", questions: [] }
-];
-
 const INITIAL_QUESTIONS: Question[] = [
     {
         id: 0,
@@ -70,6 +51,29 @@ const INITIAL_QUESTIONS: Question[] = [
         expected: "No",
         points: 25,
         published: true
+    }
+];
+
+const INITIAL_QUIZZES: Quiz[] = [
+    {
+        title: "Math Quiz",
+        description: "Short quiz on Calculus",
+        questions: INITIAL_QUESTIONS
+    },
+    {
+        title: "Science Quiz",
+        description: "Short quiz on Physics",
+        questions: INITIAL_QUESTIONS
+    },
+    {
+        title: "CISC275 Quiz",
+        description: "Short quiz on State",
+        questions: INITIAL_QUESTIONS
+    },
+    {
+        title: "Gaming Quiz",
+        description: "Short quiz on Gaming",
+        questions: INITIAL_QUESTIONS
     }
 ];
 

@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Math Quiz",
+        "description": "Short quiz on Calculus",
+        "questions": "INITIAL_QUESTIONS"
+    },
+    {
+        "title": "Science Quiz",
+        "description": "Short quiz on Physics",
+        "questions": "INITIAL_QUESTIONS"
+    },
+    {
+        "title": "CISC275 Quiz",
+        "description": "Short quiz on State",
+        "questions": "INITIAL_QUESTIONS"
+    },
+    { "title": "Gaming Quiz", "description": "Short quiz on Gaming", "questions": [] }
+];
