@@ -10,23 +10,17 @@ type ChangeEvent = React.ChangeEvent<
 
 interface QuestionInterface {
     // The type is "a function that consumes a boolean and returns nothing"
-    setQuestions: (newQuestion: Question[]) => void;
-    questions: Question[];
+    setQuestion: (newQuestion: Question) => void;
+    question: Question;
 }
 
 export function QuestionEditMode({
-    setQuestions,
-    questions
+    setQuestion,
+    question
 }: QuestionInterface): JSX.Element {
-    const [name, setName] = useState<string[]>(
-        new Array(questions.length).fill("")
-    );
-    const [answer, setAnswer] = useState<string[]>(
-        new Array(questions.length).fill("")
-    );
-    const [editMode, setEditMode] = useState<boolean[]>(
-        new Array(questions.length).fill(false)
-    );
+    const [name, setName] = useState<string>("");
+    const [answer, setAnswer] = useState<string>("");
+    const [editMode, setEditMode] = useState<boolean>(false);
 
     function updateNameInput(event: ChangeEvent, index: number) {
         const nameClone = [...name];
@@ -77,71 +71,64 @@ export function QuestionEditMode({
 
     return (
         <div>
-            {questions.map(
-                (question: Question, idx: number): JSX.Element => (
-                    <>
-                        <li key={question.expected}></li>
+            <>
+                <li key={question.expected}></li>
+                <div>
+                    <Form.Group controlId="editInputAnswer">
                         <div>
-                            <Form.Group controlId="editInputAnswer">
-                                <div>
-                                    <Form.Check
-                                        type="switch"
-                                        id="edit-mode-check"
-                                        label="Edit Mode"
-                                        checked={editMode[idx]}
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>
-                                        ) => updateEditMode(e, idx)}
-                                    />
-                                </div>
-                            </Form.Group>
-                            {editMode[idx] && (
-                                <>
-                                    <div>
-                                        <div>
-                                            Question Name:
-                                            <div>
-                                                <Form.Control
-                                                    value={name[idx]}
-                                                    onChange={(e) =>
-                                                        updateNameInput(e, idx)
-                                                    }
-                                                    disabled={!editMode}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            Question Answer:
-                                            <div>
-                                                <Form.Control
-                                                    value={answer[idx]}
-                                                    onChange={(e) =>
-                                                        updateAnswerInput(
-                                                            e,
-                                                            idx
-                                                        )
-                                                    }
-                                                    disabled={!editMode}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        onClick={(
-                                            e: React.MouseEvent<
-                                                HTMLButtonElement,
-                                                MouseEvent
-                                            >
-                                        ) => updateEditInput(e, idx, question)}
-                                    >
-                                        Edit Question
-                                    </Button>
-                                </>
-                            )}
+                            <Form.Check
+                                type="switch"
+                                id="edit-mode-check"
+                                label="Edit Mode"
+                                checked={editMode[idx]}
+                                onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                ) => updateEditMode(e, idx)}
+                            />
                         </div>
-                    </>
-                )
-            )}
+                    </Form.Group>
+                    {editMode[idx] && (
+                        <>
+                            <div>
+                                <div>
+                                    Question Name:
+                                    <div>
+                                        <Form.Control
+                                            value={name[idx]}
+                                            onChange={(e) =>
+                                                updateNameInput(e, idx)
+                                            }
+                                            disabled={!editMode}
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    Question Answer:
+                                    <div>
+                                        <Form.Control
+                                            value={answer[idx]}
+                                            onChange={(e) =>
+                                                updateAnswerInput(e, idx)
+                                            }
+                                            disabled={!editMode}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <Button
+                                onClick={(
+                                    e: React.MouseEvent<
+                                        HTMLButtonElement,
+                                        MouseEvent
+                                    >
+                                ) => updateEditInput(e, idx, question)}
+                            >
+                                Edit Question
+                            </Button>
+                        </>
+                    )}
+                </div>
+            </>
         </div>
     );
 }
