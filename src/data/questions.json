@@ -169,7 +169,7 @@
         {
             "id": 478,
             "name": "Students",
-            "body": "How many students are taking CISC275 this semester?",
+            "body": "How many students are taking Software Engineering Class this semester?",
             "type": "short_answer_question",
             "options": [],
             "expected": "90",

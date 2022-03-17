@@ -101,6 +101,7 @@ export function Questions({
                                 <QuestionEditMode
                                     setQuestions={setQuestions}
                                     questions={questions}
+                                    index={idx}
                                 ></QuestionEditMode>
                                 <Form.Group controlId="chooseOptions">
                                     {question.type ===

@@ -10,17 +10,25 @@ type ChangeEvent = React.ChangeEvent<
 
 interface QuestionInterface {
     // The type is "a function that consumes a boolean and returns nothing"
-    setQuestion: (newQuestion: Question) => void;
-    question: Question;
+    setQuestions: (newQuestion: Question[]) => void;
+    questions: Question[];
+    index: number;
 }
 
 export function QuestionEditMode({
-    setQuestion,
-    question
+    setQuestions,
+    questions,
+    index
 }: QuestionInterface): JSX.Element {
-    const [name, setName] = useState<string>("");
-    const [answer, setAnswer] = useState<string>("");
-    const [editMode, setEditMode] = useState<boolean>(false);
+    const [name, setName] = useState<string[]>(
+        new Array(questions.length).fill("")
+    );
+    const [answer, setAnswer] = useState<string[]>(
+        new Array(questions.length).fill("")
+    );
+    const [editMode, setEditMode] = useState<boolean[]>(
+        new Array(questions.length).fill(false)
+    );
 
     function updateNameInput(event: ChangeEvent, index: number) {
         const nameClone = [...name];
@@ -34,7 +42,6 @@ export function QuestionEditMode({
         setAnswer(answerClone);
         //question.name = nameClone[index];
     }
-
     function updateEditInput(
         event:
             | React.ChangeEvent<HTMLSelectElement>
@@ -55,11 +62,9 @@ export function QuestionEditMode({
                 } else return question;
             }
         );
-
         setQuestions(questArrayClone);
         console.log("Question Name After: ", questArrayClone[index].name);
     }
-
     function updateEditMode(
         event: React.ChangeEvent<HTMLInputElement>,
         index: number
@@ -72,7 +77,7 @@ export function QuestionEditMode({
     return (
         <div>
             <>
-                <li key={question.expected}></li>
+                <div key={questions[index].name}></div>
                 <div>
                     <Form.Group controlId="editInputAnswer">
                         <div>
@@ -80,25 +85,25 @@ export function QuestionEditMode({
                                 type="switch"
                                 id="edit-mode-check"
                                 label="Edit Mode"
-                                checked={editMode[idx]}
+                                checked={editMode[index]}
                                 onChange={(
                                     e: React.ChangeEvent<HTMLInputElement>
-                                ) => updateEditMode(e, idx)}
+                                ) => updateEditMode(e, index)}
                             />
                         </div>
                     </Form.Group>
-                    {editMode[idx] && (
+                    {editMode[index] && (
                         <>
                             <div>
                                 <div>
                                     Question Name:
                                     <div>
                                         <Form.Control
-                                            value={name[idx]}
+                                            value={name[index]}
                                             onChange={(e) =>
-                                                updateNameInput(e, idx)
+                                                updateNameInput(e, index)
                                             }
-                                            disabled={!editMode}
+                                            disabled={!editMode[index]}
                                         />
                                     </div>
                                 </div>
@@ -106,11 +111,11 @@ export function QuestionEditMode({
                                     Question Answer:
                                     <div>
                                         <Form.Control
-                                            value={answer[idx]}
+                                            value={answer[index]}
                                             onChange={(e) =>
-                                                updateAnswerInput(e, idx)
+                                                updateAnswerInput(e, index)
                                             }
-                                            disabled={!editMode}
+                                            disabled={!editMode[index]}
                                         />
                                     </div>
                                 </div>
@@ -121,7 +126,9 @@ export function QuestionEditMode({
                                         HTMLButtonElement,
                                         MouseEvent
                                     >
-                                ) => updateEditInput(e, idx, question)}
+                                ) =>
+                                    updateEditInput(e, index, questions[index])
+                                }
                             >
                                 Edit Question
                             </Button>

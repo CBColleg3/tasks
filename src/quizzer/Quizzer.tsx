@@ -66,7 +66,7 @@ const INITIAL_QUIZZES: Quiz[] = [
         questions: INITIAL_QUESTIONS
     },
     {
-        title: "CISC275 Quiz",
+        title: "Intro to Software Engineering Quiz",
         description: "Short quiz on State",
         questions: INITIAL_QUESTIONS
     },
