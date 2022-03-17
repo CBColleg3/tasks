@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Question, QuestionType } from "../interfaces/question";
-import { Answer } from "../interfaces/answer";
+import { Question } from "../interfaces/question";
+//import { Answer } from "../interfaces/answer";
 import { Form, Button } from "react-bootstrap";
+import { QuestionEditMode } from "./QuestionEditMode";
 
 // Simplify type definition of the Change Event
 type ChangeEvent = React.ChangeEvent<
@@ -22,10 +23,11 @@ export function Questions({
     const [input, setInput] = useState<string[]>(
         new Array(questions.length).fill("")
     );
+
     const [curChoice, setCurChoice] = useState<string[]>(
         new Array(questions.length).fill("")
     );
-    const [totalPoints, setTotalPoints] = useState<number>(0);
+    //const [totalPoints, setTotalPoints] = useState<number>(0);
 
     //Control
     function updateInput(event: ChangeEvent, index: number) {
@@ -33,6 +35,7 @@ export function Questions({
         inputClone[index] = event.target.value;
         setInput(inputClone);
     }
+
     function updateChoice(
         event: React.ChangeEvent<HTMLSelectElement>,
         index: number
@@ -43,8 +46,29 @@ export function Questions({
         //setTotalPoints(questions.points + totalPoints);
     }
 
+    /*
+    function appendQuestion() {
+        // Making a new array of quizzes, with an additional extra one
+        const modifiedQuestions: Question[] = [
+            ...questions,
+            {
+                id: 4,
+                name: "New Question",
+                body: "What should I add to this Question?",
+                type: "short_answer_question",
+                options: [],
+                expected: "20",
+                points: 50,
+                published: false
+            }
+        ];
+        // Update the question array to be the new version
+        setQuestions(modifiedQuestions);
+    }
+    */
+
     return (
-        <>
+        <div>
             <ol>
                 {questions.map(
                     (question: Question, idx: number): JSX.Element => (
@@ -74,6 +98,11 @@ export function Questions({
                                         </div>
                                     )}
                                 </Form.Group>
+                                <QuestionEditMode
+                                    setQuestions={setQuestions}
+                                    questions={questions}
+                                    index={idx}
+                                ></QuestionEditMode>
                                 <Form.Group controlId="chooseOptions">
                                     {question.type ===
                                         "multiple_choice_question" && (
@@ -117,21 +146,18 @@ export function Questions({
                                         <div>❌</div>
                                     )}
                                 </div>
-
-                                {/*                            {input === question.expected &&
-                setTotalPoints(question.points + totalPoints)}
-            TotalPoints{totalPoints} */}
                             </p>
                             <p>
-                                <Button>Add Question</Button>
-                                <Button>Edit Question</Button>
-                                <Button>Remove Question</Button>
+                                <div>
+                                    {" "}
+                                    <Button>Add Question</Button>
+                                    <Button>Remove Question</Button>
+                                </div>
                             </p>
                         </li>
                     )
                 )}
             </ol>
-            <div> TotalPoints: {totalPoints}</div>
-        </>
+        </div>
     );
 }

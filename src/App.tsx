@@ -11,7 +11,11 @@ function App(): JSX.Element {
                 <header className="App-header">
                     <h1>Christopher Bennett </h1>
                     <img src={starrynight} alt="Picture of my Unity Game." />
-                    UD CISC275 with React Hooks and TypeScript
+                    <a href="https://frontend-fun.github.io/react-hooks-typescript-tome/">
+                        {" "}
+                        UD CISC275
+                    </a>{" "}
+                    with React Hooks and TypeScript
                 </header>
             </div>
             <div>
