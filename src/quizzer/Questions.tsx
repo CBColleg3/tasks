@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Question, QuestionType } from "../interfaces/question";
-import { Answer } from "../interfaces/answer";
+import { Question } from "../interfaces/question";
+//import { Answer } from "../interfaces/answer";
 import { Form, Button } from "react-bootstrap";
+import { QuestionEditMode } from "./QuestionEditMode";
 
 // Simplify type definition of the Change Event
 type ChangeEvent = React.ChangeEvent<
@@ -14,10 +15,6 @@ interface QuestionInterface {
     questions: Question[];
 }
 
-const QUESTIONS =  {
-
-}
-
 export function Questions({
     setQuestions,
     questions
@@ -26,55 +23,17 @@ export function Questions({
     const [input, setInput] = useState<string[]>(
         new Array(questions.length).fill("")
     );
-    const [name, setName] = useState<string[]>(
-        new Array(questions.length).fill("")
-    );
-    const [answer, setAnswer] = useState<string[]>(
-        new Array(questions.length).fill("")
-    );
+
     const [curChoice, setCurChoice] = useState<string[]>(
         new Array(questions.length).fill("")
     );
-    const [totalPoints, setTotalPoints] = useState<number>(0);
-    const [editMode, setEditMode] = useState<boolean[]>(
-        new Array(questions.length).fill(false)
-    );
+    //const [totalPoints, setTotalPoints] = useState<number>(0);
 
     //Control
     function updateInput(event: ChangeEvent, index: number) {
         const inputClone = [...input];
         inputClone[index] = event.target.value;
         setInput(inputClone);
-    }
-    function updateNameInput(
-        event: ChangeEvent,
-        index: number,
-        question: Question
-    ) {
-        const nameClone = [...name];
-        nameClone[index] = event.target.value;
-        setName(nameClone);
-        //question.name = nameClone[index];
-    }
-    function updateAnswerInput(event: ChangeEvent, index: number) {
-        const answerClone = [...answer];
-        answerClone[index] = event.target.value;
-        setAnswer(answerClone);
-        //question.name = nameClone[index];
-    }
-
-    function updateEditInput(
-        event:
-            | React.ChangeEvent<HTMLSelectElement>
-            | React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        index: number,
-        question: Question
-    ) {
-        const nameClone = [...name];
-        const answerClone = [...answer];
-
-        question.name = nameClone[index];
-        question.expected = answerClone[index];
     }
 
     function updateChoice(
@@ -86,14 +45,27 @@ export function Questions({
         setCurChoice(choiceClone);
         //setTotalPoints(questions.points + totalPoints);
     }
-    function updateEditMode(
-        event: React.ChangeEvent<HTMLInputElement>,
-        index: number
-    ) {
-        const editClone = [...editMode];
-        editClone[index] = !editClone[index];
-        setEditMode(editClone);
+
+    /*
+    function appendQuestion() {
+        // Making a new array of quizzes, with an additional extra one
+        const modifiedQuestions: Question[] = [
+            ...questions,
+            {
+                id: 4,
+                name: "New Question",
+                body: "What should I add to this Question?",
+                type: "short_answer_question",
+                options: [],
+                expected: "20",
+                points: 50,
+                published: false
+            }
+        ];
+        // Update the question array to be the new version
+        setQuestions(modifiedQuestions);
     }
+    */
 
     return (
         <div>
@@ -126,6 +98,10 @@ export function Questions({
                                         </div>
                                     )}
                                 </Form.Group>
+                                <QuestionEditMode
+                                    setQuestions={setQuestions}
+                                    questions={questions}
+                                ></QuestionEditMode>
                                 <Form.Group controlId="chooseOptions">
                                     {question.type ===
                                         "multiple_choice_question" && (
@@ -154,57 +130,6 @@ export function Questions({
                                     )}
                                 </Form.Group>
                                 <div>
-                                    <Form.Group controlId="editInputAnswer">
-                                        <div>
-                                            <Form.Check
-                                                type="switch"
-                                                id="edit-mode-check"
-                                                label="Edit Mode"
-                                                checked={editMode[idx]}
-                                                onChange={(
-                                                    e: React.ChangeEvent<HTMLInputElement>
-                                                ) => updateEditMode(e, idx)}
-                                            />
-                                        </div>
-                                    </Form.Group>
-                                    {editMode[idx] && (
-                                        <div>
-                                            <div>
-                                                Question Name:
-                                                <div>
-                                                    <Form.Control
-                                                        value={name[idx]}
-                                                        onChange={(e) =>
-                                                            updateNameInput(
-                                                                e,
-                                                                idx,
-                                                                question
-                                                            )
-                                                        }
-                                                        disabled={!editMode}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                Question Answer:
-                                                <div>
-                                                    <Form.Control
-                                                        value={answer[idx]}
-                                                        onChange={(e) =>
-                                                            updateAnswerInput(
-                                                                e,
-                                                                idx
-                                                            )
-                                                        }
-                                                        disabled={!editMode}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div>
                                     {/* The input is {}. The expected answer is {} */}
                                     {input[idx] === question.expected ? (
                                         <div>✔️</div>
@@ -225,16 +150,6 @@ export function Questions({
                                 <div>
                                     {" "}
                                     <Button>Add Question</Button>
-                                    <Button
-                                        onClick={(
-                                            e: React.MouseEvent<
-                                                HTMLButtonElement,
-                                                MouseEvent
-                                            >
-                                        ) => updateEditInput(e, idx, question)}
-                                    >
-                                        Edit Question
-                                    </Button>
                                     <Button>Remove Question</Button>
                                 </div>
                             </p>
@@ -242,7 +157,6 @@ export function Questions({
                     )
                 )}
             </ol>
-            <div> TotalPoints: {totalPoints}</div>
         </div>
     );
 }

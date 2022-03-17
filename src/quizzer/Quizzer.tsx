@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Questions } from "./Questions";
-import { Question, QuestionType } from "../interfaces/question";
-import { Answer } from "../interfaces/answer";
+import { Question } from "../interfaces/question";
+//import { Answer } from "../interfaces/answer";
 import { Form, Button } from "react-bootstrap";
 
 interface Quiz {

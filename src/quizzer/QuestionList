@@ -14,5 +14,9 @@
         "description": "Short quiz on State",
         "questions": "INITIAL_QUESTIONS"
     },
-    { "title": "Gaming Quiz", "description": "Short quiz on Gaming", "questions": [] }
-];
+    {
+        "title": "Gaming Quiz",
+        "description": "Short quiz on Gaming",
+        "questions": []
+    }
+]
