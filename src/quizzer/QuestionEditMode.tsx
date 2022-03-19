@@ -23,6 +23,9 @@ export function QuestionEditMode({
     const [name, setName] = useState<string[]>(
         new Array(questions.length).fill("")
     );
+    const [body, setBody] = useState<string[]>(
+        new Array(questions.length).fill("")
+    );
     const [answer, setAnswer] = useState<string[]>(
         new Array(questions.length).fill("")
     );
@@ -30,10 +33,20 @@ export function QuestionEditMode({
         new Array(questions.length).fill(false)
     );
 
+    const [published, setPublished] = useState<boolean[]>(
+        new Array(questions.length).fill(false)
+    );
+
     function updateNameInput(event: ChangeEvent, index: number) {
         const nameClone = [...name];
         nameClone[index] = event.target.value;
         setName(nameClone);
+        //question.name = nameClone[index];
+    }
+    function updateBodyInput(event: ChangeEvent, index: number) {
+        const bodyClone = [...body];
+        bodyClone[index] = event.target.value;
+        setBody(bodyClone);
         //question.name = nameClone[index];
     }
     function updateAnswerInput(event: ChangeEvent, index: number) {
@@ -52,8 +65,10 @@ export function QuestionEditMode({
         console.log("Question Name Before: ", question.name);
         const questionClone = {
             ...question,
-            body: name[index],
-            expected: answer[index]
+            name: name[index],
+            body: body[index],
+            expected: answer[index],
+            published: published[index]
         };
         const questArrayClone = questions.map(
             (question: Question): Question => {
@@ -72,6 +87,15 @@ export function QuestionEditMode({
         const editClone = [...editMode];
         editClone[index] = !editClone[index];
         setEditMode(editClone);
+    }
+
+    function updatePublished(
+        event: React.ChangeEvent<HTMLInputElement>,
+        index: number
+    ) {
+        const publishedClone = [...published];
+        publishedClone[index] = !publishedClone[index];
+        setPublished(publishedClone);
     }
 
     return (
@@ -108,6 +132,18 @@ export function QuestionEditMode({
                                     </div>
                                 </div>
                                 <div>
+                                    Question Body:
+                                    <div>
+                                        <Form.Control
+                                            value={body[index]}
+                                            onChange={(e) =>
+                                                updateBodyInput(e, index)
+                                            }
+                                            disabled={!editMode[index]}
+                                        />
+                                    </div>
+                                </div>
+                                <div>
                                     Question Answer:
                                     <div>
                                         <Form.Control
@@ -118,6 +154,17 @@ export function QuestionEditMode({
                                             disabled={!editMode[index]}
                                         />
                                     </div>
+                                </div>
+                                <div>
+                                    <Form.Check
+                                        type="switch"
+                                        id="published-check"
+                                        label="Published?"
+                                        checked={published[index]}
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => updatePublished(e, index)}
+                                    />
                                 </div>
                             </div>
                             <Button

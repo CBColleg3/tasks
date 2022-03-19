@@ -5,6 +5,7 @@ import { Question } from "../interfaces/question";
 import { Form, Button } from "react-bootstrap";
 
 interface Quiz {
+    id: number;
     questions: Question[];
     title: string;
     description: string;
@@ -27,7 +28,7 @@ const INITIAL_QUESTIONS: Question[] = [
         name: "Question2",
         body: "How much wood could a wood chuck chuck if a wood chuck could chuck wood?",
         type: "multiple_choice_question",
-        options: ["a", "b", "c", "d", "None of these"],
+        options: ["a", "b", "c", "d", "None of these", ""],
         expected: "None of these",
         points: 25,
         published: true
@@ -47,7 +48,7 @@ const INITIAL_QUESTIONS: Question[] = [
         name: "Question4",
         body: "Is this a brand new question?",
         type: "multiple_choice_question",
-        options: ["Yes", "No"],
+        options: ["Yes", "No", ""],
         expected: "No",
         points: 25,
         published: true
@@ -56,21 +57,25 @@ const INITIAL_QUESTIONS: Question[] = [
 
 const INITIAL_QUIZZES: Quiz[] = [
     {
+        id: 1,
         title: "Math Quiz",
         description: "Short quiz on Calculus",
         questions: INITIAL_QUESTIONS
     },
     {
+        id: 2,
         title: "Science Quiz",
         description: "Short quiz on Physics",
         questions: INITIAL_QUESTIONS
     },
     {
+        id: 3,
         title: "Intro to Software Engineering Quiz",
         description: "Short quiz on State",
         questions: INITIAL_QUESTIONS
     },
     {
+        id: 4,
         title: "Gaming Quiz",
         description: "Short quiz on Gaming",
         questions: INITIAL_QUESTIONS
@@ -142,6 +147,7 @@ export function Quizzer(): JSX.Element {
         const modifiedQuizzes = [
             ...quizzes,
             {
+                id: Date.now(),
                 title: title,
                 description: description,
                 questions: []
@@ -151,12 +157,12 @@ export function Quizzer(): JSX.Element {
         setQuizzes(modifiedQuizzes);
     }
 
-    function removeQuizByTitle(quizTitle: string) {
+    function removeQuizByID(quizID: number) {
         // Need to map a new version of the array
-        const modifiedQuizzes = quizzes.filter(
+        const modifiedQuizzes = [...quizzes].filter(
             (quiz: Quiz): boolean =>
                 // If this movie is the target movie
-                quiz.title !== quizTitle
+                quiz.id !== quizID
         );
         // Update the movies array to be the new version
         setQuizzes(modifiedQuizzes);
@@ -178,11 +184,14 @@ export function Quizzer(): JSX.Element {
             <ol>
                 {quizzes.map(
                     (quiz: Quiz, idx: number): JSX.Element => (
-                        <li key={quiz.title}>
+                        <li key={quiz.id}>
                             {quiz.title} ({quiz.description}) (Total Questions:
                             {"  "}
                             {quiz.questions.length}):
-                            <Button onClick={() => showQuizQuestions(idx)}>
+                            <Button
+                                data-testid="view-quiz-button"
+                                onClick={() => showQuizQuestions(idx)}
+                            >
                                 View Quiz
                             </Button>
                             {visible[idx] && (
@@ -190,12 +199,11 @@ export function Quizzer(): JSX.Element {
                                     <Questions
                                         setQuestions={setQuestions}
                                         questions={questions}
+                                        id={quiz.id}
                                     ></Questions>
                                 </div>
                             )}
-                            <Button
-                                onClick={() => removeQuizByTitle(quiz.title)}
-                            >
+                            <Button onClick={() => removeQuizByID(quiz.id)}>
                                 Remove Quiz
                             </Button>
                         </li>

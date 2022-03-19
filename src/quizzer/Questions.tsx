@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Question } from "../interfaces/question";
 //import { Answer } from "../interfaces/answer";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { QuestionEditMode } from "./QuestionEditMode";
+import { QuestionAdd } from "./QuestionAdd";
+import { QuestionCheckAnswer } from "./QuestionCheckAnswer";
+import { QuestionRemove } from "./QuestionRemove";
 
 // Simplify type definition of the Change Event
 type ChangeEvent = React.ChangeEvent<
@@ -13,11 +16,13 @@ interface QuestionInterface {
     // The type is "a function that consumes a boolean and returns nothing"
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
+    id: number;
 }
 
 export function Questions({
     setQuestions,
-    questions
+    questions,
+    id
 }: QuestionInterface): JSX.Element {
     //State
     const [input, setInput] = useState<string[]>(
@@ -27,6 +32,7 @@ export function Questions({
     const [curChoice, setCurChoice] = useState<string[]>(
         new Array(questions.length).fill("")
     );
+    const [totalPoints, setTotalPoints] = useState<number>(0);
     //const [totalPoints, setTotalPoints] = useState<number>(0);
 
     //Control
@@ -69,17 +75,27 @@ export function Questions({
 
     return (
         <div>
-            <ol>
+            <ol data-testid={`questions-${id}`}>
                 {questions.map(
                     (question: Question, idx: number): JSX.Element => (
-                        <li key={question.name}>
+                        <li key={question.id}>
                             {question.name}
                             <p>
                                 {question.body} (Total Points:
                                 {"  "}
-                                {question.points}): (Published?:
+                                {question.points}):
                                 {"  "}
-                                {question.published}):
+                                {question.published ? (
+                                    <span>Published </span>
+                                ) : (
+                                    <span
+                                        style={{
+                                            backgroundColor: "red"
+                                        }}
+                                    >
+                                        Not Published
+                                    </span>
+                                )}
                             </p>
                             <p>
                                 <Form.Group controlId="formInputAnswer">
@@ -130,34 +146,38 @@ export function Questions({
                                         </div>
                                     )}
                                 </Form.Group>
-                                <div>
-                                    {/* The input is {}. The expected answer is {} */}
-                                    {input[idx] === question.expected ? (
-                                        <div>✔️</div>
-                                    ) : (
-                                        <div>❌</div>
-                                    )}
-                                </div>
-                                <div>
-                                    {/* The input is {}. The expected answer is {} */}
-                                    {curChoice[idx] === question.expected ? (
-                                        <div>✔️</div>
-                                    ) : (
-                                        <div>❌</div>
-                                    )}
-                                </div>
                             </p>
                             <p>
-                                <div>
-                                    {" "}
-                                    <Button>Add Question</Button>
-                                    <Button>Remove Question</Button>
-                                </div>
+                                {" "}
+                                <QuestionRemove
+                                    setQuestions={setQuestions}
+                                    questions={questions}
+                                    index={idx}
+                                ></QuestionRemove>
                             </p>
+                            <div>
+                                <QuestionCheckAnswer
+                                    setQuestions={setQuestions}
+                                    questions={questions}
+                                    index={idx}
+                                    input={input}
+                                    curChoice={curChoice}
+                                    setTotalPoints={setTotalPoints}
+                                    totalPoints={totalPoints}
+                                ></QuestionCheckAnswer>
+                            </div>
                         </li>
                     )
                 )}
             </ol>
+            <div>
+                {" "}
+                <QuestionAdd
+                    setQuestions={setQuestions}
+                    questions={questions}
+                ></QuestionAdd>
+            </div>
+            <div>Total Points: {totalPoints}</div>
         </div>
     );
 }

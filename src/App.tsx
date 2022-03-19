@@ -18,7 +18,7 @@ function App(): JSX.Element {
                     with React Hooks and TypeScript
                 </header>
             </div>
-            <div>
+            <div className="Quizzer-site">
                 <Quizzer></Quizzer>
                 <div>
                     <div>Sketch:</div>
@@ -54,6 +54,18 @@ function App(): JSX.Element {
                             <li>
                                 Users can add a new quiz and delete any existing
                                 ones
+                            </li>
+                            <li>
+                                Users can see how many total points they have
+                                earned
+                            </li>
+                            <li>
+                                Users can clear out their existing answers for a
+                                quiz
+                            </li>
+                            <li>
+                                Users can add a new quiz question and users can
+                                delete an existing quiz question
                             </li>
                         </ol>
                     </div>
