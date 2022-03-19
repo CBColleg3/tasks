@@ -81,6 +81,10 @@ function App(): JSX.Element {
                                 Users can add a new quiz question and users can
                                 delete an existing quiz question
                             </li>
+                            <li>
+                                Users can edit the questions and fields of a
+                                quiz
+                            </li>
                         </ol>
                     </div>
                 </div>
