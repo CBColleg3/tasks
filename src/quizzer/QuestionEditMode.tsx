@@ -123,6 +123,7 @@ export function QuestionEditMode({
                                     Question Name:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-name-field"
                                             value={name[index]}
                                             onChange={(e) =>
                                                 updateNameInput(e, index)
@@ -135,6 +136,7 @@ export function QuestionEditMode({
                                     Question Body:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-body-field"
                                             value={body[index]}
                                             onChange={(e) =>
                                                 updateBodyInput(e, index)
@@ -147,6 +149,7 @@ export function QuestionEditMode({
                                     Question Answer:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-answer-field"
                                             value={answer[index]}
                                             onChange={(e) =>
                                                 updateAnswerInput(e, index)
@@ -157,6 +160,7 @@ export function QuestionEditMode({
                                 </div>
                                 <div>
                                     <Form.Check
+                                        data-testid="edit-published-field"
                                         type="switch"
                                         id="published-check"
                                         label="Published?"
@@ -168,6 +172,7 @@ export function QuestionEditMode({
                                 </div>
                             </div>
                             <Button
+                                data-testid="edit-question-button"
                                 onClick={(
                                     e: React.MouseEvent<
                                         HTMLButtonElement,

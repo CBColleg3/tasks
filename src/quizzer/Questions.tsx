@@ -17,12 +17,14 @@ interface QuestionInterface {
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
     id: number;
+    showUnpublished: boolean;
 }
 
 export function Questions({
     setQuestions,
     questions,
-    id
+    id,
+    showUnpublished
 }: QuestionInterface): JSX.Element {
     //State
     const [input, setInput] = useState<string[]>(
@@ -75,101 +77,110 @@ export function Questions({
 
     return (
         <div>
-            <ol data-testid={`questions-${id}`}>
+            <ul data-testid={`questions-${id}`}>
                 {questions.map(
                     (question: Question, idx: number): JSX.Element => (
                         <li key={question.id}>
-                            {question.name}
-                            <p>
-                                {question.body} (Total Points:
-                                {"  "}
-                                {question.points}):
-                                {"  "}
-                                {question.published ? (
-                                    <span>Published </span>
-                                ) : (
-                                    <span
-                                        style={{
-                                            backgroundColor: "red"
-                                        }}
-                                    >
-                                        Not Published
-                                    </span>
-                                )}
-                            </p>
-                            <p>
-                                <Form.Group controlId="formInputAnswer">
-                                    {question.type ===
-                                        "short_answer_question" && (
-                                        <div>
-                                            <Form.Label>
-                                                Short Answer:
-                                            </Form.Label>
-                                            <Form.Control
-                                                value={input[idx]}
-                                                onChange={(e) =>
-                                                    updateInput(e, idx)
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                                </Form.Group>
-                                <QuestionEditMode
-                                    setQuestions={setQuestions}
-                                    questions={questions}
-                                    index={idx}
-                                ></QuestionEditMode>
-                                <Form.Group controlId="chooseOptions">
-                                    {question.type ===
-                                        "multiple_choice_question" && (
-                                        <div>
-                                            <Form.Label>
-                                                Multiple Choice:
-                                            </Form.Label>
-                                            <Form.Select
-                                                value={curChoice[idx]}
-                                                onChange={(e) =>
-                                                    updateChoice(e, idx)
-                                                }
+                            {(showUnpublished ||
+                                question.published === true) && (
+                                <div>
+                                    {question.name}
+                                    <p>
+                                        {question.body} (Total Points:
+                                        {"  "}
+                                        {question.points}):
+                                        {"  "}
+                                        {question.published ? (
+                                            <span>Published </span>
+                                        ) : (
+                                            <span
+                                                style={{
+                                                    backgroundColor: "red"
+                                                }}
                                             >
-                                                {question.options.map(
-                                                    (option: string) => (
-                                                        <option
-                                                            key={option}
-                                                            value={option}
-                                                        >
-                                                            {option}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
-                                    )}
-                                </Form.Group>
-                            </p>
-                            <p>
-                                {" "}
-                                <QuestionRemove
-                                    setQuestions={setQuestions}
-                                    questions={questions}
-                                    index={idx}
-                                ></QuestionRemove>
-                            </p>
-                            <div>
-                                <QuestionCheckAnswer
-                                    setQuestions={setQuestions}
-                                    questions={questions}
-                                    index={idx}
-                                    input={input}
-                                    curChoice={curChoice}
-                                    setTotalPoints={setTotalPoints}
-                                    totalPoints={totalPoints}
-                                ></QuestionCheckAnswer>
-                            </div>
+                                                Not Published
+                                            </span>
+                                        )}
+                                    </p>
+                                    <p>
+                                        <Form.Group controlId="formInputAnswer">
+                                            {question.type ===
+                                                "short_answer_question" && (
+                                                <div>
+                                                    <Form.Label>
+                                                        Short Answer:
+                                                    </Form.Label>
+                                                    <Form.Control
+                                                        value={input[idx]}
+                                                        onChange={(e) =>
+                                                            updateInput(e, idx)
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
+                                        </Form.Group>
+                                        <QuestionEditMode
+                                            setQuestions={setQuestions}
+                                            questions={questions}
+                                            index={idx}
+                                        ></QuestionEditMode>
+                                        <Form.Group controlId="chooseOptions">
+                                            {question.type ===
+                                                "multiple_choice_question" && (
+                                                <div>
+                                                    <Form.Label>
+                                                        Multiple Choice:
+                                                    </Form.Label>
+                                                    <Form.Select
+                                                        value={curChoice[idx]}
+                                                        onChange={(e) =>
+                                                            updateChoice(e, idx)
+                                                        }
+                                                    >
+                                                        {question.options.map(
+                                                            (
+                                                                option: string
+                                                            ) => (
+                                                                <option
+                                                                    key={option}
+                                                                    value={
+                                                                        option
+                                                                    }
+                                                                >
+                                                                    {option}
+                                                                </option>
+                                                            )
+                                                        )}
+                                                    </Form.Select>
+                                                </div>
+                                            )}
+                                        </Form.Group>
+                                    </p>
+                                    <p>
+                                        {" "}
+                                        <QuestionRemove
+                                            setQuestions={setQuestions}
+                                            questions={questions}
+                                            index={idx}
+                                        ></QuestionRemove>
+                                    </p>
+                                    <div>
+                                        <QuestionCheckAnswer
+                                            setQuestions={setQuestions}
+                                            questions={questions}
+                                            index={idx}
+                                            input={input}
+                                            curChoice={curChoice}
+                                            setTotalPoints={setTotalPoints}
+                                            totalPoints={totalPoints}
+                                        ></QuestionCheckAnswer>
+                                    </div>
+                                </div>
+                            )}
                         </li>
                     )
                 )}
-            </ol>
+            </ul>
             <div>
                 {" "}
                 <QuestionAdd

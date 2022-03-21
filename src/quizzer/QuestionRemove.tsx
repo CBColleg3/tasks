@@ -28,9 +28,45 @@ export function QuestionRemove({
         setQuestions(modifiedQuizzes);
     }
 
+    function moveQuestionUpByIndex(questionIndex: number) {
+        const modifiedQuizzes = [...questions];
+
+        if (questionIndex > 0) {
+            const tmpQuestion = modifiedQuizzes[questionIndex];
+            modifiedQuizzes[questionIndex] = modifiedQuizzes[questionIndex - 1];
+            modifiedQuizzes[questionIndex - 1] = tmpQuestion;
+        }
+        //questionIndex = questionIndex - 1;
+        setQuestions(modifiedQuizzes);
+    }
+
+    function moveQuestionDownByIndex(questionIndex: number) {
+        const modifiedQuizzes = [...questions];
+
+        if (questionIndex < modifiedQuizzes.length - 1) {
+            const tmpQuestion = modifiedQuizzes[questionIndex];
+            modifiedQuizzes[questionIndex] = modifiedQuizzes[questionIndex + 1];
+            modifiedQuizzes[questionIndex + 1] = tmpQuestion;
+        }
+        //questionIndex = questionIndex + 1;
+        setQuestions(modifiedQuizzes);
+    }
+
     //View
     return (
         <div>
+            <Button
+                data-testid="question-moveup-button"
+                onClick={() => moveQuestionUpByIndex(index)}
+            >
+                Move Up
+            </Button>
+            <Button
+                data-testid="question-movedown-button"
+                onClick={() => moveQuestionDownByIndex(index)}
+            >
+                Move Down
+            </Button>
             <Button
                 data-testid="remove-question-button"
                 onClick={() => removeQuestionById(questions[index].id)}

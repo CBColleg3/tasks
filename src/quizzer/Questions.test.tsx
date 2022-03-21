@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Quizzer } from "./Quizzer";
+import userEvent from "@testing-library/user-event";
 describe("Questions Tests", () => {
     beforeEach(() => {
         render(<Quizzer />);
@@ -64,25 +65,49 @@ describe("Questions Tests", () => {
         expect(quizQuestions.children.length).toBe(3);
     });
 
-    /*
     test("Entering the right answer makes it correct.", () => {
         const inputBox = screen.queryAllByRole("textbox");
-        inputBox.forEach((e)=> userEvent.type(e, "None"));
+        //inputBox.forEach((e) => userEvent.type(e, "None"));
         userEvent.type(inputBox[0], "None");
         const checkAnswerButton = screen.getAllByTestId("check-answer-button");
         checkAnswerButton[0].click();
-        checkAnswerButton.forEach((e) => e.click());
+        //checkAnswerButton.forEach((e) => e.click());
         expect(screen.getByText(/✔️/i)).toBeInTheDocument();
-        expect(screen.queryByText(/❌/i)).not.toBeInTheDocument();
     });
-    */
 
-    /*
     test("Entering the wrong answer makes it incorrect.", () => {
         const inputBox = screen.queryAllByRole("textbox");
-        userEvent.type(inputBox, "Nah");
-        expect(screen.getByText(/✔️/i)).not.toBeInTheDocument();
-        expect(screen.queryByText(/❌/i)).toBeInTheDocument();
+        userEvent.type(inputBox[0], "Nah");
+        const checkAnswerButton = screen.getAllByTestId("check-answer-button");
+        checkAnswerButton[0].click();
+        expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });
-    */
+
+    test("There are edit mode checkboxes", () => {
+        const switchButton = screen.getAllByRole("checkbox");
+        expect(switchButton.length).toBe(4);
+    });
+
+/*
+    test("Can switch into Edit Mode", () => {
+        const switchButton = screen.getAllByRole("checkbox");
+        switchButton[0].click();
+        const inputBox = screen.queryAllByRole("textbox");
+        const inputAnswer = screen.getByTestId("edit-name-field");
+        expect(inputBox.length).toHaveLength(7);
+        //expect(screen.getAllByRole("checkbox").length).toHaveLength(5);
+    });
+*/
+    test("Editing the name and student status changes the text", () => {
+        const switchButton = screen.getAllByRole("checkbox");
+        switchButton[0].click();
+        const nameBox = screen.getByTestId("edit-name-field");
+        const bodyBox = screen.getByTestId("edit-body-field");
+        userEvent.type(nameBox, "Ada Lovelace");
+        userEvent.type(bodyBox, "Ada My Love");
+        const editButton = screen.getByTestId("edit-question-button");
+        editButton.click();
+        expect(screen.getByText(/Ada Lovelace/i)).toBeInTheDocument();
+        expect(screen.getByText(/Ada My Love/i)).toBeInTheDocument();
+    });
 });

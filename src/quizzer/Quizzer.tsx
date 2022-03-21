@@ -140,6 +140,7 @@ export function Quizzer(): JSX.Element {
     const [visible, setVisible] = useState<boolean[]>(
         new Array(quizzes.length).fill(false)
     );
+    const [showUnpublished, setShowUnpublished] = useState<boolean>(true);
 
     //Components
     function appendQuiz(title: string, description: string) {
@@ -177,10 +178,14 @@ export function Quizzer(): JSX.Element {
         setVisible(boolClone);
     }
     console.log(visible);
+
+    function filterQuizQuestions(index: number): void {
+        setShowUnpublished(!showUnpublished);
+    }
     //View
     return (
         <div>
-            <h3>Quizzer</h3>
+            <h3>GroundHog Dayyyyy! Quizer:</h3>
             <ol>
                 {quizzes.map(
                     (quiz: Quiz, idx: number): JSX.Element => (
@@ -200,9 +205,16 @@ export function Quizzer(): JSX.Element {
                                         setQuestions={setQuestions}
                                         questions={questions}
                                         id={quiz.id}
+                                        showUnpublished={showUnpublished}
                                     ></Questions>
                                 </div>
                             )}
+                            <Button
+                                data-testid="filter-quiz-button"
+                                onClick={() => filterQuizQuestions(idx)}
+                            >
+                                Filter Quiz
+                            </Button>
                             <Button onClick={() => removeQuizByID(quiz.id)}>
                                 Remove Quiz
                             </Button>
