@@ -80,6 +80,14 @@ export function QuestionEditMode({
         question: Question
     ) {
         console.log("Question Name Before: ", question.name);
+
+        let typeClone: QuestionType;
+        if (multipleChoice[index]) {
+            typeClone = "multiple_choice_question";
+        } else {
+            typeClone = "short_answer_question";
+        }
+
         const questionClone = {
             ...question,
             name: name[index],
@@ -87,9 +95,7 @@ export function QuestionEditMode({
             expected: answer[index],
             published: published[index],
             points: parseInt(editPoints[index]),
-            type: multipleChoice[index]
-                ? "multiple_choice_question"
-                : ("short_answer_question" as QuestionType),
+            type: typeClone,
             options: options[index].split(",")
         };
         const questArrayClone = questions.map(

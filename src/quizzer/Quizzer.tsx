@@ -114,7 +114,7 @@ export function Quizzer(): JSX.Element {
     }
     console.log(visible);
 
-    function filterQuizQuestions(index: number): void {
+    function filterQuizQuestions(): void {
         setShowUnpublished(!showUnpublished);
     }
     //View
@@ -166,7 +166,7 @@ export function Quizzer(): JSX.Element {
                             )}
                             <Button
                                 data-testid="filter-quiz-button"
-                                onClick={() => filterQuizQuestions(idx)}
+                                onClick={() => filterQuizQuestions()}
                             >
                                 Filter Quiz
                             </Button>
