@@ -1,0 +1,42 @@
+[
+    {
+        "id": 0,
+        "name": "Question1",
+        "body": "How much wood could a wood chuck chuck if a wood chuck could chuck wood?",
+        "type": "short_answer_question",
+        "options": [],
+        "expected": "None",
+        "points": 50,
+        "published": true
+    },
+    {
+        "id": 1,
+        "name": "Question2",
+        "body": "How much wood could a wood chuck chuck if a wood chuck could chuck wood?",
+        "type": "multiple_choice_question",
+        "options": ["a", "b", "c", "d", "None of these"],
+        "expected": "None of these",
+        "points": 25,
+        "published": true
+    },
+    {
+        "id": 2,
+        "name": "Question3",
+        "body": "How much wood could a wood chuck chuck if a wood chuck could chuck 20 pieces of wood?",
+        "type": "short_answer_question",
+        "options": [],
+        "expected": "20",
+        "points": 50,
+        "published": false
+    },
+    {
+        "id": 3,
+        "name": "Question4",
+        "body": "Is this a brand new question?",
+        "type": "multiple_choice_question",
+        "options": ["Yes", "No"],
+        "expected": "No",
+        "points": 25,
+        "published": true
+    }
+]

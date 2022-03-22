@@ -1,86 +1,22 @@
 import React, { useState } from "react";
 import { Questions } from "./Questions";
-import { Question } from "../interfaces/question";
+import { Question, QuestionType } from "../interfaces/question";
+import { Quiz } from "../interfaces/quiz";
 //import { Answer } from "../interfaces/answer";
 import { Form, Button } from "react-bootstrap";
+import quizList from "../quizzer/QuizList.json";
 
-interface Quiz {
-    id: number;
-    questions: Question[];
-    title: string;
-    description: string;
-    //totalQuestions: number;
-}
-
-const INITIAL_QUESTIONS: Question[] = [
-    {
-        id: 0,
-        name: "Question1",
-        body: "How much wood could a wood chuck chuck if a wood chuck could chuck wood?",
-        type: "short_answer_question",
-        options: [],
-        expected: "None",
-        points: 50,
-        published: true
-    },
-    {
-        id: 1,
-        name: "Question2",
-        body: "How much wood could a wood chuck chuck if a wood chuck could chuck wood?",
-        type: "multiple_choice_question",
-        options: ["a", "b", "c", "d", "None of these", ""],
-        expected: "None of these",
-        points: 25,
-        published: true
-    },
-    {
-        id: 2,
-        name: "Question3",
-        body: "How much wood could a wood chuck chuck if a wood chuck could chuck 20 pieces of wood?",
-        type: "short_answer_question",
-        options: [],
-        expected: "20",
-        points: 50,
-        published: false
-    },
-    {
-        id: 3,
-        name: "Question4",
-        body: "Is this a brand new question?",
-        type: "multiple_choice_question",
-        options: ["Yes", "No", ""],
-        expected: "No",
-        points: 25,
-        published: true
-    }
-];
-
-const INITIAL_QUIZZES: Quiz[] = [
-    {
-        id: 1,
-        title: "Math Quiz",
-        description: "Short quiz on Calculus",
-        questions: INITIAL_QUESTIONS
-    },
-    {
-        id: 2,
-        title: "Science Quiz",
-        description: "Short quiz on Physics",
-        questions: INITIAL_QUESTIONS
-    },
-    {
-        id: 3,
-        title: "Intro to Software Engineering Quiz",
-        description: "Short quiz on State",
-        questions: INITIAL_QUESTIONS
-    },
-    {
-        id: 4,
-        title: "Gaming Quiz",
-        description: "Short quiz on Gaming",
-        questions: INITIAL_QUESTIONS
-    }
-];
+const INITIAL_QUIZZES: Quiz[] = quizList.map(
+    (quiz): Quiz => ({
+        ...quiz,
+        questions: quiz.questions.map(
+            (question): Question => ({
+                ...question,
+                type: question.type as QuestionType
+            })
+        )
+    })
+);
 
 // Simplify type definition of the Change Event
 type ChangeEvent = React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
@@ -136,7 +72,6 @@ export function AddQuizButton({ appendQuiz }: AddQuizParams): JSX.Element {
 export function Quizzer(): JSX.Element {
     //State
     const [quizzes, setQuizzes] = useState<Quiz[]>(INITIAL_QUIZZES);
-    const [questions, setQuestions] = useState<Question[]>(INITIAL_QUESTIONS);
     const [visible, setVisible] = useState<boolean[]>(
         new Array(quizzes.length).fill(false)
     );
@@ -202,8 +137,28 @@ export function Quizzer(): JSX.Element {
                             {visible[idx] && (
                                 <div>
                                     <Questions
-                                        setQuestions={setQuestions}
-                                        questions={questions}
+                                        quiz={quizzes[idx]}
+                                        setQuizQuestions={(
+                                            newQuestions: Question[]
+                                        ) =>
+                                            setQuizzes((oldQuizzes) =>
+                                                oldQuizzes.map(
+                                                    (eachQuiz, quiz_ind) => {
+                                                        if (quiz_ind === idx) {
+                                                            return {
+                                                                ...eachQuiz,
+                                                                questions:
+                                                                    newQuestions
+                                                            };
+                                                        } else {
+                                                            return {
+                                                                ...eachQuiz
+                                                            };
+                                                        }
+                                                    }
+                                                )
+                                            )
+                                        }
                                         id={quiz.id}
                                         showUnpublished={showUnpublished}
                                     ></Questions>

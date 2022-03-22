@@ -88,7 +88,7 @@ describe("Questions Tests", () => {
         expect(switchButton.length).toBe(4);
     });
 
-/*
+    /*
     test("Can switch into Edit Mode", () => {
         const switchButton = screen.getAllByRole("checkbox");
         switchButton[0].click();

@@ -8,12 +8,14 @@ interface QuestionInterface {
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
     index: number;
+    setQuizQuestions: (newQuestions: Question[]) => void;
 }
 
 export function QuestionRemove({
     setQuestions,
     questions,
-    index
+    index,
+    setQuizQuestions
 }: QuestionInterface): JSX.Element {
     //Control
 
@@ -26,6 +28,7 @@ export function QuestionRemove({
         );
         // Update the movies array to be the new version
         setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
     }
 
     function moveQuestionUpByIndex(questionIndex: number) {
@@ -38,6 +41,7 @@ export function QuestionRemove({
         }
         //questionIndex = questionIndex - 1;
         setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
     }
 
     function moveQuestionDownByIndex(questionIndex: number) {
@@ -50,6 +54,7 @@ export function QuestionRemove({
         }
         //questionIndex = questionIndex + 1;
         setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
     }
 
     //View

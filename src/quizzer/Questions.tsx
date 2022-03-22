@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Question } from "../interfaces/question";
 //import { Answer } from "../interfaces/answer";
 import { Form } from "react-bootstrap";
@@ -6,6 +6,7 @@ import { QuestionEditMode } from "./QuestionEditMode";
 import { QuestionAdd } from "./QuestionAdd";
 import { QuestionCheckAnswer } from "./QuestionCheckAnswer";
 import { QuestionRemove } from "./QuestionRemove";
+import { Quiz } from "../interfaces/quiz";
 
 // Simplify type definition of the Change Event
 type ChangeEvent = React.ChangeEvent<
@@ -14,19 +15,25 @@ type ChangeEvent = React.ChangeEvent<
 
 interface QuestionInterface {
     // The type is "a function that consumes a boolean and returns nothing"
-    setQuestions: (newQuestion: Question[]) => void;
-    questions: Question[];
+    quiz: Quiz;
     id: number;
     showUnpublished: boolean;
+    setQuizQuestions: (newQuestions: Question[]) => void;
 }
 
 export function Questions({
-    setQuestions,
-    questions,
+    quiz,
     id,
-    showUnpublished
+    showUnpublished,
+    setQuizQuestions
 }: QuestionInterface): JSX.Element {
     //State
+    const [questions, setQuestions] = useState<Question[]>(quiz.questions);
+
+    useEffect(() => {
+        console.log("questions = ", questions);
+    }, [questions]);
+
     const [input, setInput] = useState<string[]>(
         new Array(questions.length).fill("")
     );
@@ -53,27 +60,6 @@ export function Questions({
         setCurChoice(choiceClone);
         //setTotalPoints(questions.points + totalPoints);
     }
-
-    /*
-    function appendQuestion() {
-        // Making a new array of quizzes, with an additional extra one
-        const modifiedQuestions: Question[] = [
-            ...questions,
-            {
-                id: 4,
-                name: "New Question",
-                body: "What should I add to this Question?",
-                type: "short_answer_question",
-                options: [],
-                expected: "20",
-                points: 50,
-                published: false
-            }
-        ];
-        // Update the question array to be the new version
-        setQuestions(modifiedQuestions);
-    }
-    */
 
     return (
         <div>
@@ -123,6 +109,7 @@ export function Questions({
                                             setQuestions={setQuestions}
                                             questions={questions}
                                             index={idx}
+                                            setQuizQuestions={setQuizQuestions}
                                         ></QuestionEditMode>
                                         <Form.Group controlId="chooseOptions">
                                             {question.type ===
@@ -162,6 +149,7 @@ export function Questions({
                                             setQuestions={setQuestions}
                                             questions={questions}
                                             index={idx}
+                                            setQuizQuestions={setQuizQuestions}
                                         ></QuestionRemove>
                                     </p>
                                     <div>
@@ -184,8 +172,9 @@ export function Questions({
             <div>
                 {" "}
                 <QuestionAdd
-                    setQuestions={setQuestions}
+                    setQuestions={(newQuestions) => setQuestions(newQuestions)}
                     questions={questions}
+                    setQuizQuestions={setQuizQuestions}
                 ></QuestionAdd>
             </div>
             <div>Total Points: {totalPoints}</div>
