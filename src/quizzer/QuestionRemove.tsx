@@ -63,12 +63,14 @@ export function QuestionRemove({
             <Button
                 data-testid="question-moveup-button"
                 onClick={() => moveQuestionUpByIndex(index)}
+                disabled={index === 0}
             >
                 Move Up
             </Button>
             <Button
                 data-testid="question-movedown-button"
                 onClick={() => moveQuestionDownByIndex(index)}
+                disabled={index === questions.length - 1}
             >
                 Move Down
             </Button>

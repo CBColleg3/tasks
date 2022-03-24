@@ -256,7 +256,10 @@ export function QuestionEditMode({
                                                             index
                                                         )
                                                     }
-                                                    disabled={!editMode[index]}
+                                                    disabled={
+                                                        !editMode[index] &&
+                                                        multipleChoice[index]
+                                                    }
                                                 />
                                             </div>
                                         </div>

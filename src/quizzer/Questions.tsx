@@ -30,10 +30,6 @@ export function Questions({
     //State
     const [questions, setQuestions] = useState<Question[]>(quiz.questions);
 
-    useEffect(() => {
-        console.log("questions = ", questions);
-    }, [questions]);
-
     const [input, setInput] = useState<string[]>(
         new Array(questions.length).fill("")
     );
@@ -63,16 +59,16 @@ export function Questions({
 
     return (
         <div>
-            <ul data-testid={`questions-${id}`}>
-                {questions.map(
-                    (question: Question, idx: number): JSX.Element => (
-                        <li key={question.id}>
+            {questions.map(
+                (question: Question, idx: number): JSX.Element => (
+                    <li key={question.id}>
+                        <ul data-testid={`questions-${idx}`}>
                             {(showUnpublished ||
                                 question.published === true) && (
                                 <div>
                                     {question.name}
                                     <p>
-                                        {question.body} (Total Points:
+                                        {question.body} (Points:
                                         {"  "}
                                         {question.points}):
                                         {"  "}
@@ -165,10 +161,10 @@ export function Questions({
                                     </div>
                                 </div>
                             )}
-                        </li>
-                    )
-                )}
-            </ul>
+                        </ul>
+                    </li>
+                )
+            )}
             <div>
                 {" "}
                 <QuestionAdd

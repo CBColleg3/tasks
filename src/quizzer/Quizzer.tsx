@@ -125,54 +125,65 @@ export function Quizzer(): JSX.Element {
                 {quizzes.map(
                     (quiz: Quiz, idx: number): JSX.Element => (
                         <li key={quiz.id}>
-                            {quiz.title} ({quiz.description}) (Total Questions:
-                            {"  "}
-                            {quiz.questions.length}):
-                            <Button
-                                data-testid="view-quiz-button"
-                                onClick={() => showQuizQuestions(idx)}
-                            >
-                                View Quiz
-                            </Button>
-                            {visible[idx] && (
-                                <div>
-                                    <Questions
-                                        quiz={quizzes[idx]}
-                                        setQuizQuestions={(
-                                            newQuestions: Question[]
-                                        ) =>
-                                            setQuizzes((oldQuizzes) =>
-                                                oldQuizzes.map(
-                                                    (eachQuiz, quiz_ind) => {
-                                                        if (quiz_ind === idx) {
-                                                            return {
-                                                                ...eachQuiz,
-                                                                questions:
-                                                                    newQuestions
-                                                            };
-                                                        } else {
-                                                            return {
-                                                                ...eachQuiz
-                                                            };
+                            <ul data-testid={`quizzes-${idx}`}>
+                                {quiz.title} ({quiz.description}) (Total
+                                Questions:
+                                {"  "}
+                                {quiz.questions.length}):
+                                <Button
+                                    data-testid="view-quiz-button"
+                                    onClick={() => showQuizQuestions(idx)}
+                                >
+                                    View Quiz
+                                </Button>
+                                {visible[idx] && (
+                                    <div>
+                                        <Questions
+                                            quiz={quizzes[idx]}
+                                            setQuizQuestions={(
+                                                newQuestions: Question[]
+                                            ) =>
+                                                setQuizzes((oldQuizzes) =>
+                                                    oldQuizzes.map(
+                                                        (
+                                                            eachQuiz,
+                                                            quiz_ind
+                                                        ) => {
+                                                            if (
+                                                                quiz_ind === idx
+                                                            ) {
+                                                                return {
+                                                                    ...eachQuiz,
+                                                                    questions:
+                                                                        newQuestions
+                                                                };
+                                                            } else {
+                                                                return {
+                                                                    ...eachQuiz
+                                                                };
+                                                            }
                                                         }
-                                                    }
+                                                    )
                                                 )
-                                            )
-                                        }
-                                        id={quiz.id}
-                                        showUnpublished={showUnpublished}
-                                    ></Questions>
-                                </div>
-                            )}
-                            <Button
-                                data-testid="filter-quiz-button"
-                                onClick={() => filterQuizQuestions()}
-                            >
-                                Filter Quiz
-                            </Button>
-                            <Button onClick={() => removeQuizByID(quiz.id)}>
-                                Remove Quiz
-                            </Button>
+                                            }
+                                            id={quiz.id}
+                                            showUnpublished={showUnpublished}
+                                        ></Questions>
+                                    </div>
+                                )}
+                                <Button
+                                    data-testid="filter-quiz-button"
+                                    onClick={() => filterQuizQuestions()}
+                                >
+                                    Filter Quiz
+                                </Button>
+                                <Button
+                                    data-testid="remove-quiz-button"
+                                    onClick={() => removeQuizByID(quiz.id)}
+                                >
+                                    Remove Quiz
+                                </Button>
+                            </ul>
                         </li>
                     )
                 )}
