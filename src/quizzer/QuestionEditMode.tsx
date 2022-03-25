@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Question } from "../interfaces/question";
+import { Question, QuestionType } from "../interfaces/question";
 //import { Answer } from "../interfaces/answer";
 import { Form, Button } from "react-bootstrap";
 
@@ -13,12 +13,14 @@ interface QuestionInterface {
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
     index: number;
+    setQuizQuestions: (newQuestions: Question[]) => void;
 }
 
 export function QuestionEditMode({
     setQuestions,
     questions,
-    index
+    index,
+    setQuizQuestions
 }: QuestionInterface): JSX.Element {
     const [name, setName] = useState<string[]>(
         new Array(questions.length).fill("")
@@ -32,9 +34,17 @@ export function QuestionEditMode({
     const [editMode, setEditMode] = useState<boolean[]>(
         new Array(questions.length).fill(false)
     );
-
+    const [editPoints, setEditPoints] = useState<string[]>(
+        new Array(questions.length).fill("")
+    );
     const [published, setPublished] = useState<boolean[]>(
         new Array(questions.length).fill(false)
+    );
+    const [multipleChoice, setMultipleChoice] = useState<boolean[]>(
+        new Array(questions.length).fill(false)
+    );
+    const [options, setOptions] = useState<string[]>(
+        new Array(questions.length).fill("")
     );
 
     function updateNameInput(event: ChangeEvent, index: number) {
@@ -55,6 +65,13 @@ export function QuestionEditMode({
         setAnswer(answerClone);
         //question.name = nameClone[index];
     }
+
+    function updatePointInput(event: ChangeEvent, index: number) {
+        const pointClone = [...editPoints];
+        pointClone[index] = event.target.value;
+        setEditPoints(pointClone);
+        //question.name = nameClone[index];
+    }
     function updateEditInput(
         event:
             | React.ChangeEvent<HTMLSelectElement>
@@ -63,12 +80,23 @@ export function QuestionEditMode({
         question: Question
     ) {
         console.log("Question Name Before: ", question.name);
+
+        let typeClone: QuestionType;
+        if (multipleChoice[index]) {
+            typeClone = "multiple_choice_question";
+        } else {
+            typeClone = "short_answer_question";
+        }
+
         const questionClone = {
             ...question,
             name: name[index],
             body: body[index],
             expected: answer[index],
-            published: published[index]
+            published: published[index],
+            points: parseInt(editPoints[index]),
+            type: typeClone,
+            options: options[index].split(",")
         };
         const questArrayClone = questions.map(
             (question: Question): Question => {
@@ -78,6 +106,7 @@ export function QuestionEditMode({
             }
         );
         setQuestions(questArrayClone);
+        setQuizQuestions(questArrayClone);
         console.log("Question Name After: ", questArrayClone[index].name);
     }
     function updateEditMode(
@@ -96,6 +125,21 @@ export function QuestionEditMode({
         const publishedClone = [...published];
         publishedClone[index] = !publishedClone[index];
         setPublished(publishedClone);
+    }
+
+    function updateQuestionType(
+        event: React.ChangeEvent<HTMLInputElement>,
+        index: number
+    ) {
+        const multClone = [...multipleChoice];
+        multClone[index] = !multClone[index];
+        setMultipleChoice(multClone);
+    }
+
+    function updateOptionsArray(event: ChangeEvent, index: number) {
+        const optionClone = [...options];
+        optionClone[index] = event.target.value;
+        setOptions(optionClone);
     }
 
     return (
@@ -123,6 +167,7 @@ export function QuestionEditMode({
                                     Question Name:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-name-field"
                                             value={name[index]}
                                             onChange={(e) =>
                                                 updateNameInput(e, index)
@@ -135,6 +180,7 @@ export function QuestionEditMode({
                                     Question Body:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-body-field"
                                             value={body[index]}
                                             onChange={(e) =>
                                                 updateBodyInput(e, index)
@@ -147,6 +193,7 @@ export function QuestionEditMode({
                                     Question Answer:
                                     <div>
                                         <Form.Control
+                                            data-testid="edit-answer-field"
                                             value={answer[index]}
                                             onChange={(e) =>
                                                 updateAnswerInput(e, index)
@@ -156,7 +203,22 @@ export function QuestionEditMode({
                                     </div>
                                 </div>
                                 <div>
+                                    Question Points:
+                                    <div>
+                                        <Form.Control
+                                            data-testid="edit-points-field"
+                                            value={editPoints[index]}
+                                            type="number"
+                                            onChange={(e) =>
+                                                updatePointInput(e, index)
+                                            }
+                                            disabled={!editMode[index]}
+                                        />
+                                    </div>
+                                </div>
+                                <div>
                                     <Form.Check
+                                        data-testid="edit-published-field"
                                         type="switch"
                                         id="published-check"
                                         label="Published?"
@@ -166,8 +228,46 @@ export function QuestionEditMode({
                                         ) => updatePublished(e, index)}
                                     />
                                 </div>
+                                <div>
+                                    <Form.Check
+                                        data-testid="edit-question-type"
+                                        type="switch"
+                                        id="multiple-choice-check"
+                                        label="Multiple Choice?"
+                                        checked={multipleChoice[index]}
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => updateQuestionType(e, index)}
+                                    />
+                                </div>
+                                <div>
+                                    {multipleChoice[index] && (
+                                        <div>
+                                            {" "}
+                                            Multiple Choice Options (Please
+                                            enter in a comma seperated list):
+                                            <div>
+                                                <Form.Control
+                                                    data-testid="edit-options-field"
+                                                    value={options[index]}
+                                                    onChange={(e) =>
+                                                        updateOptionsArray(
+                                                            e,
+                                                            index
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        !editMode[index] &&
+                                                        multipleChoice[index]
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <Button
+                                data-testid="edit-question-button"
                                 onClick={(
                                     e: React.MouseEvent<
                                         HTMLButtonElement,

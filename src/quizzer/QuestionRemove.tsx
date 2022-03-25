@@ -8,12 +8,14 @@ interface QuestionInterface {
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
     index: number;
+    setQuizQuestions: (newQuestions: Question[]) => void;
 }
 
 export function QuestionRemove({
     setQuestions,
     questions,
-    index
+    index,
+    setQuizQuestions
 }: QuestionInterface): JSX.Element {
     //Control
 
@@ -26,11 +28,52 @@ export function QuestionRemove({
         );
         // Update the movies array to be the new version
         setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
+    }
+
+    function moveQuestionUpByIndex(questionIndex: number) {
+        const modifiedQuizzes = [...questions];
+
+        if (questionIndex > 0) {
+            const tmpQuestion = modifiedQuizzes[questionIndex];
+            modifiedQuizzes[questionIndex] = modifiedQuizzes[questionIndex - 1];
+            modifiedQuizzes[questionIndex - 1] = tmpQuestion;
+        }
+        //questionIndex = questionIndex - 1;
+        setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
+    }
+
+    function moveQuestionDownByIndex(questionIndex: number) {
+        const modifiedQuizzes = [...questions];
+
+        if (questionIndex < modifiedQuizzes.length - 1) {
+            const tmpQuestion = modifiedQuizzes[questionIndex];
+            modifiedQuizzes[questionIndex] = modifiedQuizzes[questionIndex + 1];
+            modifiedQuizzes[questionIndex + 1] = tmpQuestion;
+        }
+        //questionIndex = questionIndex + 1;
+        setQuestions(modifiedQuizzes);
+        setQuizQuestions(modifiedQuizzes);
     }
 
     //View
     return (
         <div>
+            <Button
+                data-testid="question-moveup-button"
+                onClick={() => moveQuestionUpByIndex(index)}
+                disabled={index === 0}
+            >
+                Move Up
+            </Button>
+            <Button
+                data-testid="question-movedown-button"
+                onClick={() => moveQuestionDownByIndex(index)}
+                disabled={index === questions.length - 1}
+            >
+                Move Down
+            </Button>
             <Button
                 data-testid="remove-question-button"
                 onClick={() => removeQuestionById(questions[index].id)}

@@ -47,8 +47,11 @@ export function QuestionCheckAnswer({
 
     //View
     return (
-        <div data-testid="check-answer-button">
-            <Button onClick={() => CheckAnswer(questions[index].type)}>
+        <div>
+            <Button
+                data-testid="check-answer-button"
+                onClick={() => CheckAnswer(questions[index].type)}
+            >
                 Check Answer
             </Button>
             {correctAnswer ? <div>✔️</div> : <div>❌</div>}

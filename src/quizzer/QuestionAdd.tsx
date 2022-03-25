@@ -7,11 +7,13 @@ interface QuestionInterface {
     // The type is "a function that consumes a boolean and returns nothing"
     setQuestions: (newQuestion: Question[]) => void;
     questions: Question[];
+    setQuizQuestions: (newQuestions: Question[]) => void;
 }
 
 export function QuestionAdd({
     setQuestions,
-    questions
+    questions,
+    setQuizQuestions
 }: QuestionInterface): JSX.Element {
     //Control
     function appendQuestion() {
@@ -32,6 +34,7 @@ export function QuestionAdd({
         //console.log("Date: ", Date.now());
         // Update the question array to be the new version
         setQuestions(modifiedQuestions);
+        setQuizQuestions(modifiedQuestions);
     }
 
     //View
