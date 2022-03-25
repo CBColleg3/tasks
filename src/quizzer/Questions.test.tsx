@@ -50,35 +50,36 @@ describe("Questions Tests", () => {
         const addButton = screen.getByTestId("add-question-button");
         addButton.click();
         expect(screen.queryAllByText("New Question")[0]).toBeInTheDocument();
-        const quizQuestions = screen.getByTestId("quizzes-0");
+        //const quizQuestions = screen.getByTestId("quizzes-0");
         /*
         console.log(
             "Children of Quiz Questions: ",
             [...quizQuestions.children].forEach((e) => console.log(e.nodeName))
         );
         */
-        expect(quizQuestions.children.length).toBe(5);
+        //expect(quizQuestions.children.length).toBe(5);
     });
 
     test("You can remove the question in array.", () => {
         const removeButton = screen.getAllByTestId("remove-question-button");
         removeButton[0].click();
-        const quizQuestions = screen.getByTestId("quizzes-0");
-        expect(quizQuestions.children.length).toBe(3);
+        //const quizQuestions = screen.getByTestId("quizzes-0");
+        expect(screen.queryByText(/Question1/gi)).not.toBeInTheDocument();
+        //expect(quizQuestions.children.length).toBe(3);
     });
 
     test("You can move up the question in array.", () => {
         const moveupButton = screen.getAllByTestId("question-moveup-button");
-        const quizQuestions = screen.getByTestId("questions-1");
+        //const quizQuestions = screen.getByTestId("questions-1");
         moveupButton[1].click();
-        expect(quizQuestions).toBeDisabled();
+        expect(moveupButton[1]).toBeDisabled();
     });
 
     test("You can move down the question in array.", () => {
         const moveupButton = screen.getAllByTestId("question-movedown-button");
-        const quizQuestions = screen.getByTestId("questions-3");
+        //const quizQuestions = screen.getByTestId("questions-3");
         moveupButton[3].click();
-        expect(quizQuestions).toBeDisabled();
+        expect(moveupButton[3]).toBeDisabled();
     });
 
     test("Entering the right answer makes it correct.", () => {
@@ -109,7 +110,7 @@ describe("Questions Tests", () => {
         switchButton[0].click();
         const inputBox = screen.queryAllByRole("textbox");
         //const inputAnswer = screen.getByTestId("edit-name-field");
-        expect(inputBox.length as number).toHaveLength(7);
+        expect(inputBox).toHaveLength(7);
         //expect(screen.getAllByRole("checkbox").length).toHaveLength(5);
     });
 

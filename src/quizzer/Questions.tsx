@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Question } from "../interfaces/question";
 //import { Answer } from "../interfaces/answer";
 import { Form } from "react-bootstrap";
