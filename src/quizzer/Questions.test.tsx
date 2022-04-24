@@ -1,5 +1,5 @@
 import React from "react";
-import { prettyDOM, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Quizzer } from "./Quizzer";
 import userEvent from "@testing-library/user-event";
 describe("Questions Tests", () => {
