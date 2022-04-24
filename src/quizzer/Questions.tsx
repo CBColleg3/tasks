@@ -23,7 +23,6 @@ interface QuestionInterface {
 
 export function Questions({
     quiz,
-    id,
     showUnpublished,
     setQuizQuestions
 }: QuestionInterface): JSX.Element {
